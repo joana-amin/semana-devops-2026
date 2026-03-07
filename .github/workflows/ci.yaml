@@ -17,13 +17,13 @@ on:
   push:
     branches: [main]
     paths:
-      - 'dia5/app/**'
-      - 'dia5/k8s/**'
-      - 'dia5/.github/workflows/**'
+      - 'app/**'
+      - 'k8s/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [main]
     paths:
-      - 'dia5/app/**'
+      - 'app/**'
 
 env:
   IMAGE_NAME: devops-map-brasil
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: dia5/app
+        working-directory: app
 
     steps:
       - name: Checkout do código
@@ -66,7 +66,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     defaults:
       run:
-        working-directory: dia5/app
+        working-directory: app
 
     outputs:
       image_tag: ${{ steps.meta.outputs.tags }}
@@ -91,7 +91,7 @@ jobs:
       - name: Build e Push
         uses: docker/build-push-action@v6
         with:
-          context: dia5/app
+          context: app
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
@@ -121,10 +121,10 @@ jobs:
 
       - name: Aplicar manifestos Kubernetes
         run: |
-          kubectl apply -f dia5/k8s/namespace.yaml
-          kubectl apply -f dia5/k8s/deployment.yaml
-          kubectl apply -f dia5/k8s/service.yaml
-          kubectl apply -f dia5/k8s/hpa.yaml
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/hpa.yaml
 
       - name: Atualizar imagem do Deployment
         run: |
