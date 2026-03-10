@@ -26,7 +26,7 @@ on:
       - 'app/**'
 
 env:
-  IMAGE_NAME: devops-map-brasil
+  IMAGE_NAME: mapa-da-semana-devops
   K8S_NAMESPACE: semana-devops
   EKS_CLUSTER: semana-devops
   AWS_REGION: us-east-1
